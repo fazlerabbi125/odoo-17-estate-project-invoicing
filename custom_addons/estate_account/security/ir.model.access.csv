@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_move_invoice,account.move invoice,account.model_account_move,estate.group_estate_agent,1,1,1,1
+access_account_move_line_invoice,account.move.line invoice,account.model_account_move_line,estate.group_estate_agent,1,1,1,1
+access_account_journal_invoice,account.journal invoice,account.model_account_journal,estate.group_estate_agent,1,0,0,0

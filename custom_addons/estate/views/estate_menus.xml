@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="estate_menu_root" name="Real Estate"
+              groups="estate.group_estate_agent" sequence="100"
+              web_icon="estate,static/src/images/estate_menu_img.png" >
+        <menuitem id="estate_property_menu_action" name="Properties" action="estate_property_action" sequence="5"/>
+        <menuitem id="estate_config_menu" name="Configuration"
+                  groups="estate.group_estate_manager" sequence="15">
+            <menuitem id="estate_property_type_menu_action" action="estate_property_type_action" sequence="5" />
+            <menuitem id="estate_property_tag_menu_action" action="estate_property_tag_action" sequence="10" />
+        </menuitem>
+    </menuitem>
+    <menuitem id="estate_property_offer_menu_action" name="Property Offers"
+              action="estate_property_offer_action" sequence="10"
+              parent="estate_menu_root"/>
+<!-- hr.menu_hr_root   -->
+</odoo>
