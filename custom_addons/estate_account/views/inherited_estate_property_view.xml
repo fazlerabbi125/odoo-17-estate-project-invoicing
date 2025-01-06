@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="estate_property_view_form_inherited" model="ir.ui.view">
+        <field name="name">estate.property.view.form.inherited</field>
+        <field name="model">estate.property</field>
+        <field name="inherit_id" ref="estate.estate_property_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_approve']" position="replace"/>
+            <xpath expr="//button[@name='action_refuse']" position="replace"/>
+            <xpath expr="//page[@name='other_info_tab']/group/group[1]"
+                   position="attributes">
+                <attribute name="string">Invoice</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_info_tab']/group/group[2]"
+                   position="attributes">
+                <attribute name="string">Accounting</attribute>
+            </xpath>
+            <xpath expr="//field[@name='active']"
+                   position="before">
+                <field name="admin_fees"
+                       readonly="state in ('offer_accepted', 'sold')"/>
+            </xpath>
+            <xpath expr="//page[@name='other_info_tab']//field[@name='company_id']"
+                   position="after">
+                <field name="suitable_journal_ids" invisible="1"/>
+                <field name="journal_id" invisible="state not in ('offer_accepted','sold')"/>
+                <field name="invoice_id" invisible="state != 'sold'"/>
+            </xpath>
+            <xpath expr="//page[@name='other_info_tab']//field[@name='buyer_id']"
+                   position="after">
+                <xpath expr="//field[@name='approved_by']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='company_id']"
+                   position="after">
+                <xpath expr="//field[@name='currency_id']" position="move"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="estate_property_view_manager_tree" model="ir.ui.view">
+        <field name="name">estate.property.view.tree.inherited</field>
+        <field name="model">estate.property</field>
+        <field name="inherit_id" ref="estate.estate_property_view_tree"/>
+        <field name="priority">20</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="/tree" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="estate_property_view_manager_search" model="ir.ui.view">
+        <field name="name">estate.property.view.search.inherited</field>
+        <field name="model">estate.property</field>
+        <field name="inherit_id" ref="estate.estate_property_view_search"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//searchpanel" position="replace">
+                <field name="property_type_id" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="estate_property_view_manager_form" model="ir.ui.view">
+        <field name="name">estate.property.view.form.inherited</field>
+        <field name="model">estate.property</field>
+        <field name="inherit_id" ref="estate_property_view_form_inherited"/>
+        <field name="priority">20</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="/form" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_sold']" position="replace"/>
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <button name="action_approve" type="object"
+                        class="oe_highlight" string="Approve"
+                        invisible="not id or state != 'confirm'"
+                        groups="estate.group_estate_manager"/>
+                <button name="action_refuse" type="object"
+                        class="oe_highlight" string="Refuse"
+                        invisible="not id or state != 'confirm'"
+                        confirm="Are you sure you want to refuse this property?"
+                        groups="estate.group_estate_manager"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="replace"/>
+        </field>
+    </record>
+
+    <record id="estate_approval_property_action" model="ir.actions.act_window">
+        <field name="name">Pending Properties</field>
+        <field name="res_model">estate.property</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="estate_property_view_manager_search"/>
+        <field name="domain">[('state', '=', 'confirm')]</field>
+    </record>
+
+    <record model="ir.actions.act_window.view"
+            id="estate_approval_property_action_tree">
+       <field name="sequence" eval="5"/>
+       <field name="view_mode">tree</field>
+       <field name="view_id" ref="estate_property_view_manager_tree"/>
+       <field name="act_window_id" ref="estate_approval_property_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view"
+            id="estate_approval_property_action_form">
+       <field name="sequence" eval="10"/>
+       <field name="view_mode">form</field>
+       <field name="view_id" ref="estate_property_view_manager_form"/>
+       <field name="act_window_id" ref="estate_approval_property_action"/>
+    </record>
+</odoo>

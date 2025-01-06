@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="employee_project_history_form" model="ir.ui.view">
+        <field name="name">employee.project.history.form</field>
+        <field name="model">employee.project.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="project_id"/>
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                        <field name="role"/>
+                        <field name="responsibility"/>
+                    </group>
+                    <group>
+                        <field name="assigned_from"/>
+                        <field name="assigned_to"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_project_inherited_view_form" model="ir.ui.view">
+        <field name="name">project.project.inherited.view.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_start']" position="before">
+                <field name="member_count" string="No. of project members"
+                invisible="not member_count"
+                />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Project Members">
+                    <field name="project_members">
+                        <tree editable="bottom">
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="role"/>
+                            <field name="responsibility" />
+                            <field name="assigned_from"/>
+                            <field name="assigned_to"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="employee_project_history_tree" model="ir.ui.view">
+        <field name="name">employee.project.history.tree</field>
+        <field name="model">employee.project.history</field>
+        <field name="arch" type="xml">
+            <tree string="Employee project history">
+<!--                <field name="sequence" widget="handle"/>-->
+                <field name="project_id"/>
+                <field name="employee_id"/>
+                <field name="role"/>
+                <field name="responsibility"/>
+                <field name="assigned_from"/>
+                <field name="assigned_to"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_project_history_action" model="ir.actions.act_window">
+        <field name="name">Employee Project History</field>
+        <field name="res_model">employee.project.history</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="employee_project_history_action" id="employee_project_history_menu_action" parent="project.menu_project_config"/>
+</odoo>
