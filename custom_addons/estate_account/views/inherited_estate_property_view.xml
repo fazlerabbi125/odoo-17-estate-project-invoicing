@@ -59,8 +59,12 @@
         <field name="inherit_id" ref="estate.estate_property_view_search"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <xpath expr="//searchpanel" position="replace">
-                <field name="property_type_id" />
+            <xpath expr="//searchpanel/field[@name='property_type_id']"
+                   position="attributes">
+                <attribute name="enable_counters">1</attribute>
+            </xpath>
+            <xpath expr="//searchpanel/field[@name='state']" position="replace">
+                <field name="currency_id"/>
             </xpath>
         </field>
     </record>

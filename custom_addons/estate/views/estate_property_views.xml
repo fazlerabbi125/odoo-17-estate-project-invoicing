@@ -54,6 +54,8 @@
                     <field name="state" widget="statusbar" statusbar_visible="approve,offer_accepted,sold"/>
                 </header>
                 <sheet>
+<!--                    <widget name="web_ribbon" title="Sold"-->
+<!--                            invisible="state != 'sold'"/>-->
                     <field name="image"
                            options="{'accepted_file_extensions': '.png,.jpg,.jpeg'}"
                            widget="image" class="oe_avatar"/>
@@ -220,7 +222,7 @@
                 <searchpanel>
 <!--                   for selection type fields -->
                     <field name="property_type_id" />
-                    <field name="state"/>
+                    <field name="state" enable_counters="1"/>
                 </searchpanel>
                 <group>
                     <filter string="Property status" name="status_grp" context="
@@ -237,7 +239,6 @@
 <!--        <field name="context">{'search_default_status_grp':1}</field>-->
 <!--        <field name="context">{'search_default_living_area':500}</field>-->
         <field name="context">{'search_default_filter_active':1,}</field>
-        <field name="search_view_id" ref="estate_property_view_search"/>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
