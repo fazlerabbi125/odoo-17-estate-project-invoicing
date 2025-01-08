@@ -11,7 +11,8 @@ class EstateProperty(models.Model):
                                                    ], limit=1)
 
     admin_fees = fields.Monetary("Administrative fees", tracking=True)
-    invoice_id = fields.Many2one("account.move", string="Invoice",
+    invoice_id = fields.Many2one(comodel_name="account.move",
+                                 string="Invoice", ondelete='restrict',
                                  domain=[("move_type", "=", "out_invoice")],
                                  readonly=True, tracking=True)
     journal_id = fields.Many2one(

@@ -95,17 +95,39 @@
         </field>
     </record>
 
+    <record id="estate_property_view_manager_calendar" model="ir.ui.view">
+        <field name="name">estate.property.calendar.inherited</field>
+        <field name="model">estate.property</field>
+        <field name="inherit_id" ref="estate.estate_property_view_calendar"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="/calendar" position="attributes">
+                <attribute name="form_view_id">%(estate_account.estate_property_view_manager_form)d</attribute>
+                <attribute name="create">0</attribute>
+                <attribute name="event_open_popup">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='selling_price']" position="replace"/>
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="user_id" avatar_field="avatar_128"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="estate.estate_property_action" model="ir.actions.act_window">
+        <field name="name">All Properties</field>
+    </record>
+
     <record id="estate_approval_property_action" model="ir.actions.act_window">
         <field name="name">Pending Properties</field>
         <field name="res_model">estate.property</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar</field>
         <field name="search_view_id" ref="estate_property_view_manager_search"/>
         <field name="domain">[('state', '=', 'confirm')]</field>
     </record>
 
     <record model="ir.actions.act_window.view"
             id="estate_approval_property_action_tree">
-       <field name="sequence" eval="5"/>
+       <field name="sequence" eval="1"/>
        <field name="view_mode">tree</field>
        <field name="view_id" ref="estate_property_view_manager_tree"/>
        <field name="act_window_id" ref="estate_approval_property_action"/>
@@ -113,9 +135,17 @@
 
     <record model="ir.actions.act_window.view"
             id="estate_approval_property_action_form">
-       <field name="sequence" eval="10"/>
+       <field name="sequence" eval="3"/>
        <field name="view_mode">form</field>
        <field name="view_id" ref="estate_property_view_manager_form"/>
+       <field name="act_window_id" ref="estate_approval_property_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view"
+            id="estate_approval_property_action_calendar">
+       <field name="sequence">4</field>
+       <field name="view_mode">calendar</field>
+       <field name="view_id" ref="estate_property_view_manager_calendar"/>
        <field name="act_window_id" ref="estate_approval_property_action"/>
     </record>
 </odoo>

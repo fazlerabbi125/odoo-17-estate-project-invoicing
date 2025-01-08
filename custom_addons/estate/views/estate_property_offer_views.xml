@@ -27,10 +27,13 @@
                   create="0"
                   edit="0"
             >
-                <header>
-                    <field name="state" widget="statusbar" statusbar_visible=""/>
-                </header>
                 <sheet>
+                    <field name="state" invisible="1"/>
+                    <widget name="web_ribbon" title="Accepted"
+                            invisible="state != 'accepted'"/>
+                    <widget name="web_ribbon" title="Refused"
+                            bg_color="text-bg-danger"
+                            invisible="state != 'refused'"/>
                     <group>
                         <group>
                             <field name="property_id" />

@@ -206,6 +206,12 @@ class EstateProperty(models.Model):
                                    ('offer_accepted', 'sold')):
             raise ValidationError("Properties with accepted offers cannot be archived.")
 
+    @api.constrains("date_availability")
+    def _check_date(self):
+        if any(rec.date_availability and rec.state in
+                                   ('offer_accepted', 'sold') for rec in self):
+            raise ValidationError("Availability date cannot be changed when property has accepted offer or has been sold.")
+
     @api.constrains("expected_price", "selling_price")
     def _check_price_difference(self):
         for prop in self:
@@ -242,7 +248,12 @@ class EstateProperty(models.Model):
 
     def unlink(self):
         user = self.env.user
-        if not (user.has_group('estate.group_estate_manager') or self.env.is_admin()) and self.filtered(lambda x: x.state not in ("draft", "cancel")):
-            raise UserError("Only new and canceled properties can be deleted by agent")
+        is_est_manager = user.has_group('estate.group_estate_manager') or self.env.is_admin()
+        if self.filtered(lambda x: x.state in ("offer_accepted", "sold")):
+            raise UserError("You cannot delete a property with accepted offer")
+        if not is_est_manager and any(rec.state == "approve"
+                                      and rec.offer_ids.filtered(lambda x: x.state != 'refused')
+                                      for rec in self):
+            raise UserError("Only estate managers can delete properties with valid offers")
 
         return super().unlink()
