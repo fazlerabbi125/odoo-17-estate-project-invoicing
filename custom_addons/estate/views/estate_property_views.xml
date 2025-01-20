@@ -251,13 +251,26 @@
         </field>
     </record>
 
+    <record id="estate_property_view_graph" model="ir.ui.view">
+        <field name="name">estate.property.graph</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <graph order="desc" stacked="0">
+                <field name="date_availability" interval="day"/>
+                <field name="name"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="selling_price" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <record id="estate_property_action" model="ir.actions.act_window">
         <field name="name">Properties</field>
         <field name="res_model">estate.property</field>
 <!--        <field name="context">{'search_default_status_grp':1}</field>-->
 <!--        <field name="context">{'search_default_living_area':500}</field>-->
         <field name="context">{'search_default_filter_active':1,}</field>
-        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a property advertisement

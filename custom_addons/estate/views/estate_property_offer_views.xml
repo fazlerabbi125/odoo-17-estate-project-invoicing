@@ -52,10 +52,23 @@
         </field>
     </record>
 
+    <record id="estate_property_offer_view_graph" model="ir.ui.view">
+        <field name="name">estate.property.graph</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <graph disable_linking="1">
+                <field name="currency_id" invisible="1"/>
+                <field name="property_id"/>
+                <field name="partner_id"/>
+                <field name="price" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <record id="estate_property_offer_action" model="ir.actions.act_window">
         <field name="name">Property Offers</field>
         <field name="res_model">estate.property.offer</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,graph</field>
     </record>
 
     <record id="estate_property_type_offers_action" model="ir.actions.act_window">
