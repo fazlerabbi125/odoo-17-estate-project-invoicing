@@ -138,7 +138,7 @@
                                     <sheet>
                                         <group>
                                             <group>
-                                                <field name="partner_id" />
+                                                <field name="partner_id" context="{'default_customer_rank':1,'res_partner_search_mode': 'customer'}"/>
                                                 <field name="price" />
                                             </group>
                                             <group>
